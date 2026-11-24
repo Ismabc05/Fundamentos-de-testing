@@ -4,7 +4,7 @@ describe('Person', () => {
   let person;
   // Arrange
   beforeEach(() => {
-    person = new Person('John', 70, 1.8);
+    person = new Person('Ismael', 70, 1.8);
   });
 
   beforeAll(() => {
