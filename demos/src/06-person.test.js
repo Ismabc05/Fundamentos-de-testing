@@ -7,7 +7,7 @@ describe('Person', () => {
     person = new Person('John', 70, 1.8);
   });
 
-  afterAll(() => {
+  beforeAll(() => {
     console.log('Test completed');
   });
   test('should be down', () => {
