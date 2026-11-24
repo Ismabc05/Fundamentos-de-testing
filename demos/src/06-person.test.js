@@ -30,7 +30,7 @@ describe('Person', () => {
     expect(imc).toBe('overweight');
   });
   test('should be overweight level 1', () => {
-    person.weight = 85;
+    person.weight = 90;
     const imc = person.calcIMC();
     expect(imc).toBe('overweight level 1');
   });
@@ -50,8 +50,8 @@ describe('Person', () => {
     expect(imc).toBe('no found');
   });
   test('should be not found', () => {
-    person.weight = 0;
+    person.weight = -10;
     const imc = person.calcIMC();
-    expect(imc).toBe('normal');
+    expect(imc).toBe('no found');
   });
 });
