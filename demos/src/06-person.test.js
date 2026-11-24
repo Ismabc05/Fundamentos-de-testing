@@ -29,4 +29,29 @@ describe('Person', () => {
     const imc = person.calcIMC();
     expect(imc).toBe('overweight');
   });
+  test('should be overweight level 1', () => {
+    person.weight = 85;
+    const imc = person.calcIMC();
+    expect(imc).toBe('overweight level 1');
+  });
+  test('should be overweight level 2', () => {
+    person.weight = 100;
+    const imc = person.calcIMC();
+    expect(imc).toBe('overweight level 2');
+  });
+  test('should be overweight level 3', () => {
+    person.weight = 150;
+    const imc = person.calcIMC();
+    expect(imc).toBe('overweight level 3');
+  });
+  test('should be not found', () => {
+    person.weight = -10;
+    const imc = person.calcIMC();
+    expect(imc).toBe('no found');
+  });
+  test('should be not found', () => {
+    person.weight = 0;
+    const imc = person.calcIMC();
+    expect(imc).toBe('normal');
+  });
 });
