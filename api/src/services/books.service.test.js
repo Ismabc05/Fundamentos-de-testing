@@ -1,16 +1,5 @@
+const { generateManyBooks } = require('../fakes/book.fake');
 const BooksService = require('./books.service');
-
-// Se crea un arreglo de libros falsos para simular la respuesta de la base de datos.
-const fakeBooks = [
-  {
-    _id: '1',
-    name: 'Harry Potter',
-  },
-  {
-    _id: '2',
-    name: 'Poltergeist',
-  },
-];
 
 const mockGetAll = jest.fn();
 
@@ -31,21 +20,23 @@ describe('Test for books services', () => {
 
   describe('Test for getBooks method', () => {
     test('should call the getAll method', async () => {
+      const fakeBooks = generateManyBooks(20);
       mockGetAll.mockResolvedValue(fakeBooks);
       const books = await booksService.getBooks();
       console.log(books);
-      expect(books.length).toEqual(2);
+      expect(books.length).toEqual(fakeBooks.length);
       expect(mockGetAll).toHaveBeenCalled();
       expect(mockGetAll).toHaveBeenCalledWith('books', undefined);
     });
   });
   describe('Test for getBooks method', () => {
     test('should call the getAll method', async () => {
-      mockGetAll.mockResolvedValue([{ _id: '2', name: 'Poltergeist' }]);
+      const fakeBooks = generateManyBooks(3);
+      mockGetAll.mockResolvedValue(fakeBooks);
       const books = await booksService.getBooks();
       console.log(books);
       // Assert
-      expect(books[0].name).toEqual('Poltergeist');
+      expect(books[0].name).toEqual(fakeBooks[0].name);
       expect(mockGetAll).toHaveBeenCalled();
       expect(mockGetAll).toHaveBeenCalledTimes(1);
     });
