@@ -12,41 +12,42 @@ const fakeBooks = [
   },
 ];
 
-// MongoLinStub tienes los metodos que contiene el servicio booksservice.
-const MongoLinStub = {
-  getAll: () => [...fakeBooks],
-  create: () => {},
-};
+const mockGetAll = jest.fn();
 
 // Cuando se llama a mongoLib, se va a llamar al mock MongoLinStub.
-jest.mock('../lib/mongo.lib', () => jest.fn().mockImplementation(() => MongoLinStub));
+jest.mock('../lib/mongo.lib', () => jest.fn().mockImplementation(() => ({
+  getAll: mockGetAll,
+  create: () => {},
+})));
 
 describe('Test for books services', () => {
   let booksService;
+  // eslint-disable-next-line max-len
+  // Se ejecuta antes de cada prueba para crear una nueva instancia de BooksService y limpiar los mocks.
   beforeEach(() => {
     booksService = new BooksService();
-    // Limpiar los mocks antes de cada prueba para evitar interferencias entre pruebas.
     jest.clearAllMocks();
   });
 
   describe('Test for getBooks method', () => {
     test('should call the getAll method', async () => {
-      // Arrange
-      // Act
+      mockGetAll.mockResolvedValue(fakeBooks);
       const books = await booksService.getBooks();
       console.log(books);
-      // Assert
       expect(books.length).toEqual(2);
+      expect(mockGetAll).toHaveBeenCalled();
+      expect(mockGetAll).toHaveBeenCalledWith('books', undefined);
     });
   });
   describe('Test for getBooks method', () => {
     test('should call the getAll method', async () => {
-      // Arrange
-      // Act
+      mockGetAll.mockResolvedValue([{ _id: '2', name: 'Poltergeist' }]);
       const books = await booksService.getBooks();
       console.log(books);
       // Assert
-      expect(books[1].name).toEqual('Poltergeist');
+      expect(books[0].name).toEqual('Poltergeist');
+      expect(mockGetAll).toHaveBeenCalled();
+      expect(mockGetAll).toHaveBeenCalledTimes(1);
     });
   });
 });
